@@ -1,6 +1,9 @@
 import React from 'react';
 import t from 'prop-types';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinnerThird } from '@fortawesome/pro-duotone-svg-icons';
+import { TinyColor } from '@ctrl/tinycolor';
 
 const BACKGROUND_BY_TYPE = {
   primary: '#0a3d62',
@@ -17,14 +20,41 @@ const ViewButton = styled.button`
   color: white;
   background: ${({ type }) => BACKGROUND_BY_TYPE[type]};
   font-size: 16px;
-  padding: 10px 20px;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
 `;
 
-const Button = ({ type, children }) => <ViewButton type={type}>{children}</ViewButton>;
+const ViewIcon = styled.span`
+  display: flex;
+  height: 100%;
+  padding: 11px;
+  margin: 0;
+  background: ${({ type }) => new TinyColor(BACKGROUND_BY_TYPE[type]).lighten().toHexString()};
+`;
+
+const ViewChildren = styled.span`
+  display: flex;
+  padding: ${({ loading }) => (loading ? `10px 20px 10px 15px` : `10px 20px`)};
+`;
+
+const Button = ({ type, loading, children }) => (
+  <ViewButton type={type}>
+    {loading && (
+      <ViewIcon type={type}>
+        <FontAwesomeIcon icon={faSpinnerThird} spin swapOpacity />
+      </ViewIcon>
+    )}
+    <ViewChildren loading={loading}>{children}</ViewChildren>
+  </ViewButton>
+);
 
 Button.propTypes = {
   type: t.string,
+  loading: t.bool,
   children: t.node,
 };
 
