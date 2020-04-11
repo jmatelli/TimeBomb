@@ -36,3 +36,9 @@ export const danger = () => (
     Hello Button
   </Button>
 );
+
+export const loading = () => (
+  <Button type="primary" loading onClick={action('clicked')}>
+    Hello Button
+  </Button>
+);
