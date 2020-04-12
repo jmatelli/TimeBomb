@@ -4,6 +4,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     background-color: #fad390;
     font-family: Arial, sans-serif;
+    padding-top: 50px;
   }
 
   ::placeholder {
