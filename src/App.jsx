@@ -1,13 +1,5 @@
 import React, { Fragment } from 'react';
-import { createGlobalStyle } from 'styled-components';
-import { Header } from './ui';
-
-const GlobalStyle = createGlobalStyle`
-  body {
-    background-color: #fad390;
-    font-family: Arial, sans-serif;
-  }
-`;
+import { Header, GlobalStyle } from './ui';
 
 const App = () => (
   <Fragment>
