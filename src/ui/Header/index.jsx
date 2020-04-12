@@ -13,9 +13,13 @@ const ViewHeader = styled.header`
   justify-content: center;
 `;
 
+const ViewTitle = styled.h1`
+  font-size: 20px;
+`;
+
 const Header = () => (
   <ViewHeader>
-    <h1>TimeBomb</h1>
+    <ViewTitle>Time Bomb</ViewTitle>
   </ViewHeader>
 );
 
