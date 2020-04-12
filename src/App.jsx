@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import { createGlobalStyle } from 'styled-components';
+import { Header } from './ui';
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    background-color: #fad390;
+    font-family: Arial, sans-serif;
+  }
+`;
 
 const App = () => (
-  <div>
-    <header>TimeBomb</header>
-  </div>
+  <Fragment>
+    <GlobalStyle />
+    <Header />
+  </Fragment>
 );
 
 export default App;
