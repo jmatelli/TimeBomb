@@ -13,6 +13,12 @@ export const primary = () => (
   </Button>
 );
 
+export const secondary = () => (
+  <Button type="secondary" onClick={action('clicked')}>
+    Hello Button
+  </Button>
+);
+
 export const success = () => (
   <Button type="success" onClick={action('clicked')}>
     Hello Button

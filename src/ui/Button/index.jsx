@@ -6,7 +6,9 @@ import { faSpinnerThird } from '@fortawesome/pro-duotone-svg-icons';
 import { TinyColor } from '@ctrl/tinycolor';
 
 const BACKGROUND_BY_TYPE = {
+  default: '#595959',
   primary: '#0a3d62',
+  secondary: '#595959',
   success: '#78e08f',
   info: '#82ccdd',
   warning: '#fa983a',
@@ -18,14 +20,21 @@ const ViewButton = styled.button`
   border-radius: 3px;
   cursor: pointer;
   color: white;
-  background: ${({ type }) => BACKGROUND_BY_TYPE[type]};
+  background: ${({ type }) => (type ? BACKGROUND_BY_TYPE[type] : BACKGROUND_BY_TYPE.default)};
   font-size: 16px;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: row;
   padding: 0;
+  margin: 10px;
   position: relative;
   overflow: hidden;
+  &:hover {
+    background-color: ${({ type }) =>
+      type
+        ? new TinyColor(BACKGROUND_BY_TYPE[type]).darken().toHexString()
+        : new TinyColor(BACKGROUND_BY_TYPE.default).darken(20).toHexString()};
+  }
 `;
 
 const ViewIcon = styled.span`
