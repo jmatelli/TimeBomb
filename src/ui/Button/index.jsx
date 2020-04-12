@@ -3,24 +3,14 @@ import t from 'prop-types';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinnerThird } from '@fortawesome/pro-duotone-svg-icons';
-import { TinyColor } from '@ctrl/tinycolor';
-
-const BACKGROUND_BY_TYPE = {
-  default: '#595959',
-  primary: '#0a3d62',
-  secondary: '#595959',
-  success: '#78e08f',
-  info: '#82ccdd',
-  warning: '#fa983a',
-  danger: '#eb2f06',
-};
+import colors from '../colors';
 
 const ViewButton = styled.button`
   border: none;
   border-radius: 3px;
   cursor: pointer;
   color: white;
-  background: ${({ type }) => (type ? BACKGROUND_BY_TYPE[type] : BACKGROUND_BY_TYPE.default)};
+  background: ${({ type }) => (type ? colors[type].base : colors.default.base)};
   font-size: 16px;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   display: flex;
@@ -30,10 +20,7 @@ const ViewButton = styled.button`
   position: relative;
   overflow: hidden;
   &:hover {
-    background-color: ${({ type }) =>
-      type
-        ? new TinyColor(BACKGROUND_BY_TYPE[type]).darken().toHexString()
-        : new TinyColor(BACKGROUND_BY_TYPE.default).darken(20).toHexString()};
+    background-color: ${({ type }) => (type ? colors[type].dark : colors.default.dark)};
   }
 `;
 
@@ -42,7 +29,7 @@ const ViewIcon = styled.span`
   height: 100%;
   padding: 11px;
   margin: 0;
-  background: ${({ type }) => new TinyColor(BACKGROUND_BY_TYPE[type]).lighten().toHexString()};
+  background: ${({ type }) => colors[type].light};
 `;
 
 const ViewChildren = styled.span`
