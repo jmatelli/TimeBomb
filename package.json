@@ -7,6 +7,7 @@
     "@ctrl/tinycolor": "^2.6.1",
     "@fortawesome/fontawesome-pro": "^5.13.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
+    "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/pro-duotone-svg-icons": "^5.13.0",
     "@fortawesome/react-fontawesome": "^0.1.9",
     "@svgr/webpack": "4.3.3",
