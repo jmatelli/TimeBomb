@@ -3,53 +3,101 @@ import t from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import { TinyColor } from '@ctrl/tinycolor';
-
-const borderColor = new TinyColor('white').darken(30);
+import colors from '../colors';
 
 const ViewContent = styled.div`
-  display: flex;
-  flex-direction: row;
+  width: 500px;
+  max-width: 100%;
 `;
 
 const ViewInput = styled.input`
-  border: 1px solid ${borderColor};
+  border: none;
   background: white;
   color: black;
-  border-radius: ${({ icon }) => (icon ? `0 3px 3px 0` : `3px`)};
   padding: 10px;
   font-size: 16px;
+  width: 100%;
+`;
+
+const ViewLabel = styled.label`
+  display: flex;
+  flex-direction: row;
+  border: 1px solid ${({ error }) => (error ? colors.danger.base : colors.white.darker)};
+  border-radius: ${({ error }) => (error ? '3px 3px 0 0' : '3px')};
+  overflow: hidden;
+  ${({ error }) =>
+    error
+      ? `
+    box-shadow: 0 0 6px ${colors.danger.dark}
+  `
+      : ''}
+`;
+
+const ViewLabelText = styled.span`
+  display: block;
+  padding: 10px;
+  background: ${colors.white.dark};
+  width: 300px;
+  text-align: right;
+  font-weight: bold;
+  color: ${new TinyColor('white').darken(50)};
 `;
 
 const ViewIcon = styled.span`
   display: flex;
   width: 35px;
-  border: 1px solid ${borderColor};
-  border-right: none;
+  border-right: 1px solid ${colors.white.darker};
   border-radius: 3px 0 0 3px;
-  background: ${new TinyColor('white').darken(10)};
+  background: ${colors.white.dark};
   color: ${new TinyColor('white').darken(50)};
   padding: 10px;
-  display: flex;
   justify-content: center;
 `;
 
-const Input = ({ onChange, placeholder, value, icon, type }) => (
+const ViewIconLabel = styled.span`
+  display: flex;
+  width: 35px;
+  color: ${new TinyColor('white').darken(50)};
+  padding: 10px;
+  background: white;
+  align-items: center;
+`;
+
+const ViewError = styled.div`
+  background-color: ${colors.danger.base};
+  padding: 5px 10px;
+  color: white;
+  border-radius: 0 0 3px 3px;
+`;
+
+const Input = ({ onChange, label, placeholder, value, icon, type, error }) => (
   <ViewContent>
-    {icon && (
-      <ViewIcon>
-        <FontAwesomeIcon icon={icon} />
-      </ViewIcon>
-    )}
-    <ViewInput type={type} icon={icon} placeholder={placeholder} value={value} onChange={onChange} />
+    <ViewLabel error={error}>
+      {label && <ViewLabelText>{label}</ViewLabelText>}
+      {!label && icon && (
+        <ViewIcon>
+          <FontAwesomeIcon icon={icon} />
+        </ViewIcon>
+      )}
+      <ViewInput type={type} icon={icon} placeholder={placeholder} value={value} onChange={onChange} />
+      {label && icon && (
+        <ViewIconLabel>
+          <FontAwesomeIcon icon={icon} />
+        </ViewIconLabel>
+      )}
+    </ViewLabel>
+    {error && <ViewError>{error}</ViewError>}
   </ViewContent>
 );
 
 Input.propTypes = {
   onChange: t.func.isRequired,
+  label: t.string,
   placeholder: t.string,
   value: t.string,
   icon: t.any,
   type: t.string,
+  error: t.string,
 };
 
 export default Input;
