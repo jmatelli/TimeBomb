@@ -21,7 +21,6 @@ const ViewBackdrop = styled.div`
 
 const ViewContent = styled.div`
   border-radius: 10px;
-  background-color: white;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -37,7 +36,7 @@ const ViewHeader = styled.header`
   justify-content: space-between;
   align-items: center;
   background-color: ${colors.primary.lighter};
-  padding: 10px;
+  padding: 10px 10px 10px 20px;
 `;
 
 const ViewTitle = styled.h2`
@@ -47,7 +46,8 @@ const ViewTitle = styled.h2`
 `;
 
 const ViewBody = styled.div`
-  padding: 20px 10px;
+  padding: 20px;
+  background-color: white;
 `;
 
 const ViewFooter = styled.footer`
