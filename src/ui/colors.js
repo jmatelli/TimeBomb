@@ -9,6 +9,7 @@ const warning = '#fa983a';
 const danger = '#eb2f06';
 
 const generateColor = (color) => ({
+  extraLight: new TinyColor(color).setAlpha(0.2),
   lighter: new TinyColor(color).lighten(20),
   light: new TinyColor(color).lighten(),
   base: color,
