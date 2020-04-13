@@ -22,6 +22,7 @@ const ViewInput = styled.input`
 
 const ViewIcon = styled.span`
   display: flex;
+  width: 35px;
   border: 1px solid ${borderColor};
   border-right: none;
   border-radius: 3px 0 0 3px;
