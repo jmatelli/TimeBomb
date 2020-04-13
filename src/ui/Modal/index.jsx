@@ -76,7 +76,7 @@ const Modal = ({ title, onClose, actions, children }) => (
 );
 
 Modal.propTypes = {
-  title: t.string,
+  title: t.string.isRequired,
   onClose: t.func,
   actions: t.node,
   children: t.node,
