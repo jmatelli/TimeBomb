@@ -6,12 +6,14 @@ import { faSpinnerThird } from '@fortawesome/pro-duotone-svg-icons';
 import colors from '../colors';
 
 const ViewButton = styled.button`
-  border: none;
+  border: ${({ outline, type }) => (outline ? `1px solid ${colors[type].base}` : 'none')};
   border-radius: 3px;
+  background-clip: padding-box;
   cursor: pointer;
   color: white;
+  color: ${({ outline, type }) => (outline ? colors[type].base : 'white')};
   font-weight: bold;
-  background: ${({ type }) => (type ? colors[type].base : colors.default.base)};
+  background-color: ${({ outline, type }) => (outline ? 'white' : colors[type].base)};
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: row;
@@ -19,8 +21,9 @@ const ViewButton = styled.button`
   position: relative;
   overflow: hidden;
   &:hover {
-    background-color: ${({ type }) => (type ? colors[type].dark : colors.default.dark)};
+    background-color: ${({ outline, type }) => (outline ? colors[type].extraLight : colors[type].dark)};
   }
+  transition: 0.5s;
 `;
 
 const ViewIcon = styled.span`
@@ -28,8 +31,9 @@ const ViewIcon = styled.span`
   height: 100%;
   padding: ${({ size }) => (size === 'large' ? `11px` : '8px')};
   margin: 0;
-  background: ${({ type }) => colors[type].light};
+  background-color: ${({ outline, type }) => (outline ? colors[type].extraLight : colors[type].light)};
   font-size: ${({ size }) => (size === 'small' ? '14px' : '16px')};
+  color: ${({ outline, type }) => (outline ? colors[type].base : 'white')};
 `;
 
 const ViewChildren = styled.span`
@@ -38,20 +42,20 @@ const ViewChildren = styled.span`
   font-size: ${({ size }) => (size === 'small' ? '14px' : '16px')};
 `;
 
-const Button = ({ type = 'primary', size = 'normal', loading = false, children }) => (
-  <ViewButton type={type}>
+const Button = ({ onClick, outline = false, type = 'default', size = 'normal', loading = false, children }) => (
+  <ViewButton type={type} onClick={onClick} outline={outline}>
     {loading && (
-      <ViewIcon type={type} size={size}>
+      <ViewIcon outline={outline} type={type} size={size}>
         <FontAwesomeIcon icon={faSpinnerThird} spin />
       </ViewIcon>
     )}
-    <ViewChildren loading={loading} size={size}>
-      {children}
-    </ViewChildren>
+    <ViewChildren size={size}>{children}</ViewChildren>
   </ViewButton>
 );
 
 Button.propTypes = {
+  onClick: t.func.isRequired,
+  outline: t.bool,
   type: t.string,
   size: t.oneOf(['small', 'normal', 'large']),
   loading: t.bool,

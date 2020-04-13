@@ -8,6 +8,18 @@ const Margin = styled.div`
   margin: 10px;
 `;
 
+const ViewContent = styled.div`
+  padding: 10px;
+  margin: 10px;
+`;
+
+const ViewOutlineContent = styled.div`
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  background-color: white;
+`;
+
 export default {
   component: Button,
   title: 'Button',
@@ -15,36 +27,70 @@ export default {
 
 export const primary = () => (
   <Fragment>
-    <Margin>
-      <Button type="primary" size="small" onClick={action('clicked')}>
-        hello button
-      </Button>
-    </Margin>
-    <Margin>
-      <Button type="primary" onClick={action('clicked')}>
-        hello button
-      </Button>
-    </Margin>
-    <Margin>
-      <Button type="primary" size="large" onClick={action('clicked')}>
-        hello button
-      </Button>
-    </Margin>
-    <Margin>
-      <Button type="primary" size="small" loading onClick={action('clicked')}>
-        Hello Button
-      </Button>
-    </Margin>
-    <Margin>
-      <Button type="primary" loading onClick={action('clicked')}>
-        Hello Button
-      </Button>
-    </Margin>
-    <Margin>
-      <Button type="primary" size="large" loading onClick={action('clicked')}>
-        Hello Button
-      </Button>
-    </Margin>
+    <ViewContent>
+      <Margin>
+        <Button type="primary" size="small" onClick={action('clicked')}>
+          hello button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button type="primary" onClick={action('clicked')}>
+          hello button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button type="primary" size="large" onClick={action('clicked')}>
+          hello button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button type="primary" size="small" loading onClick={action('clicked')}>
+          Hello Button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button type="primary" loading onClick={action('clicked')}>
+          Hello Button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button type="primary" size="large" loading onClick={action('clicked')}>
+          Hello Button
+        </Button>
+      </Margin>
+    </ViewContent>
+    <ViewOutlineContent>
+      <Margin>
+        <Button outline type="primary" size="small" onClick={action('clicked')}>
+          hello button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="primary" onClick={action('clicked')}>
+          hello button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="primary" size="large" onClick={action('clicked')}>
+          hello button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="primary" size="small" loading onClick={action('clicked')}>
+          Hello Button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="primary" loading onClick={action('clicked')}>
+          Hello Button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="primary" size="large" loading onClick={action('clicked')}>
+          Hello Button
+        </Button>
+      </Margin>
+    </ViewOutlineContent>
   </Fragment>
 );
 
@@ -80,6 +126,38 @@ export const secondary = () => (
         Hello Button
       </Button>
     </Margin>
+    <ViewOutlineContent>
+      <Margin>
+        <Button outline type="secondary" size="small" onClick={action('clicked')}>
+          hello button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="secondary" onClick={action('clicked')}>
+          hello button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="secondary" size="large" onClick={action('clicked')}>
+          hello button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="secondary" size="small" loading onClick={action('clicked')}>
+          Hello Button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="secondary" loading onClick={action('clicked')}>
+          Hello Button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="secondary" size="large" loading onClick={action('clicked')}>
+          Hello Button
+        </Button>
+      </Margin>
+    </ViewOutlineContent>
   </Fragment>
 );
 
@@ -115,6 +193,38 @@ export const success = () => (
         Hello Button
       </Button>
     </Margin>
+    <ViewOutlineContent>
+      <Margin>
+        <Button outline type="success" size="small" onClick={action('clicked')}>
+          hello button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="success" onClick={action('clicked')}>
+          hello button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="success" size="large" onClick={action('clicked')}>
+          hello button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="success" size="small" loading onClick={action('clicked')}>
+          Hello Button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="success" loading onClick={action('clicked')}>
+          Hello Button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="success" size="large" loading onClick={action('clicked')}>
+          Hello Button
+        </Button>
+      </Margin>
+    </ViewOutlineContent>
   </Fragment>
 );
 
@@ -150,6 +260,38 @@ export const info = () => (
         Hello Button
       </Button>
     </Margin>
+    <ViewOutlineContent>
+      <Margin>
+        <Button outline type="info" size="small" onClick={action('clicked')}>
+          hello button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="info" onClick={action('clicked')}>
+          hello button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="info" size="large" onClick={action('clicked')}>
+          hello button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="info" size="small" loading onClick={action('clicked')}>
+          Hello Button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="info" loading onClick={action('clicked')}>
+          Hello Button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="info" size="large" loading onClick={action('clicked')}>
+          Hello Button
+        </Button>
+      </Margin>
+    </ViewOutlineContent>
   </Fragment>
 );
 
@@ -185,6 +327,38 @@ export const warning = () => (
         Hello Button
       </Button>
     </Margin>
+    <ViewOutlineContent>
+      <Margin>
+        <Button outline type="warning" size="small" onClick={action('clicked')}>
+          hello button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="warning" onClick={action('clicked')}>
+          hello button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="warning" size="large" onClick={action('clicked')}>
+          hello button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="warning" size="small" loading onClick={action('clicked')}>
+          Hello Button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="warning" loading onClick={action('clicked')}>
+          Hello Button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="warning" size="large" loading onClick={action('clicked')}>
+          Hello Button
+        </Button>
+      </Margin>
+    </ViewOutlineContent>
   </Fragment>
 );
 
@@ -220,5 +394,37 @@ export const danger = () => (
         Hello Button
       </Button>
     </Margin>
+    <ViewOutlineContent>
+      <Margin>
+        <Button outline type="danger" size="small" onClick={action('clicked')}>
+          hello button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="danger" onClick={action('clicked')}>
+          hello button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="danger" size="large" onClick={action('clicked')}>
+          hello button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="danger" size="small" loading onClick={action('clicked')}>
+          Hello Button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="danger" loading onClick={action('clicked')}>
+          Hello Button
+        </Button>
+      </Margin>
+      <Margin>
+        <Button outline type="danger" size="large" loading onClick={action('clicked')}>
+          Hello Button
+        </Button>
+      </Margin>
+    </ViewOutlineContent>
   </Fragment>
 );
