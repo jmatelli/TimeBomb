@@ -104,6 +104,7 @@ dist
 .tern-port
 
 .firebase/
+src/utils/firebaseConfig.json
 
 build
 tags
