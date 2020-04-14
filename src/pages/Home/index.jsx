@@ -5,6 +5,7 @@ import { Button, Modal, Input } from '../../ui';
 import { faUser, faGamepad } from '@fortawesome/free-solid-svg-icons';
 import { faUsers } from '@fortawesome/pro-duotone-svg-icons';
 import useInput from '../../utils/hooks/useInput';
+import { db } from '../../utils/firebase';
 
 const ViewContent = styled.div`
   display: flex;
@@ -14,6 +15,8 @@ const ViewContent = styled.div`
 `;
 
 const ViewField = styled.div`
+  display: flex;
+  flex-direction: row;
   margin: 10px 0;
 `;
 
@@ -21,16 +24,28 @@ const CreateRoomModal = ({ onClose }) => {
   const [playerName, errorPlayerName, onChangePlayerName] = useInput('')('name');
   const [roomName, errorRoomName, onChangeRoomName] = useInput('')('name');
   const [nbPlayers, errorNbPlayers, onChangeNbPlayers] = useInput('')('number');
+  const [isRequestLoading, setRequestLoading] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // TODO: Create an entry in firestore for /players
+    try {
+      setRequestLoading(true);
+      await db.collection('players').add({
+        playerName,
+        roomName,
+        nbPlayers,
+      });
+      setRequestLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <Modal
       title="Create a new Game"
       actions={
-        <Button onClick={handleSubmit} type="success">
+        <Button onClick={handleSubmit} loading={isRequestLoading} type="success">
           Create
         </Button>
       }
