@@ -37,6 +37,7 @@ const ViewLabelText = styled.span`
   display: block;
   padding: 10px;
   background: ${colors.white.dark};
+  border-right: 1px solid ${colors.white.darker};
   width: 300px;
   text-align: right;
   font-weight: bold;
