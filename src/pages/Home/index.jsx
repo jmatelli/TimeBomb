@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import t from 'prop-types';
 import styled from 'styled-components';
+import { pipe, entries, map } from 'lodash/fp';
 import { Button, Modal, Input } from '../../ui';
 import { faUser, faGamepad } from '@fortawesome/free-solid-svg-icons';
 import { faUsers } from '@fortawesome/pro-duotone-svg-icons';
-import useInput from '../../utils/hooks/useInput';
+import useForm from '../../utils/hooks/useForm';
 import { db } from '../../utils/firebase';
 
 const ViewContent = styled.div`
@@ -20,20 +21,37 @@ const ViewField = styled.div`
   margin: 10px 0;
 `;
 
+const isFormValid = (form) => (setForm) => {
+  let errors = 0;
+  pipe(
+    entries,
+    map(([field, fieldValue]) => {
+      if (!fieldValue.input) {
+        setForm((form) => ({ ...form, [field]: { input: '', error: 'Thie field is empty.' } }));
+        errors++;
+      }
+    }),
+  )(form);
+  return !!errors;
+};
+
 const CreateRoomModal = ({ onClose }) => {
-  const [playerName, errorPlayerName, onChangePlayerName] = useInput('')('name');
-  const [roomName, errorRoomName, onChangeRoomName] = useInput('')('name');
-  const [nbPlayers, errorNbPlayers, onChangeNbPlayers] = useInput('')('number');
+  const { form, onChange, setForm } = useForm({
+    playerName: { input: '', error: null },
+    roomName: { input: '', error: null },
+    nbPlayers: { input: '', error: null },
+  });
   const [isRequestLoading, setRequestLoading] = useState(false);
 
   const handleSubmit = async () => {
     // TODO: Create an entry in firestore for /players
     try {
+      if (isFormValid(form)(setForm)) return;
       setRequestLoading(true);
       await db.collection('players').add({
-        playerName,
-        roomName,
-        nbPlayers,
+        playerName: form.playerName.input,
+        roomName: form.roomName.input,
+        nbPlayers: form.nbPlayers.input,
       });
       setRequestLoading(false);
     } catch (error) {
@@ -57,35 +75,38 @@ const CreateRoomModal = ({ onClose }) => {
       </div>
       <ViewField>
         <Input
+          error={form.playerName.error}
           icon={faUser}
-          onChange={onChangePlayerName}
-          type="text"
-          value={playerName}
-          placeholder="Ex: JohnDoe123"
           label="Player name:"
-          error={errorPlayerName}
-        />
-      </ViewField>
-      <ViewField>
-        <Input
-          icon={faGamepad}
-          onChange={onChangeRoomName}
+          name="playerName"
+          onChange={onChange}
+          placeholder="Ex: JohnDoe123"
           type="text"
-          value={roomName}
-          placeholder="Ex: UltraGameXYZ"
-          label="Room name:"
-          error={errorRoomName}
+          value={form.playerName.input}
         />
       </ViewField>
       <ViewField>
         <Input
+          error={form.roomName.error}
+          icon={faGamepad}
+          label="Room name:"
+          name="roomName"
+          onChange={onChange}
+          placeholder="Ex: UltraGameXYZ"
+          type="text"
+          value={form.roomName.input}
+        />
+      </ViewField>
+      <ViewField>
+        <Input
+          error={form.nbPlayers.error}
           icon={faUsers}
-          onChange={onChangeNbPlayers}
-          type="number"
-          value={nbPlayers}
-          placeholder="Ex: 3"
           label="Number of players:"
-          error={errorNbPlayers}
+          name="nbPlayers"
+          onChange={onChange}
+          placeholder="Ex: 3"
+          type="number"
+          value={form.nbPlayers.input}
         />
       </ViewField>
     </Modal>
