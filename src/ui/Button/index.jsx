@@ -20,6 +20,7 @@ const ViewButton = styled.button`
   padding: 0;
   position: relative;
   overflow: hidden;
+  ${({ margin }) => margin && `margin: ${margin};`}
   &:hover {
     background-color: ${({ outline, type }) => (outline ? colors[type].extraLight : colors[type].dark)};
   }
@@ -42,8 +43,17 @@ const ViewChildren = styled.span`
   font-size: ${({ size }) => (size === 'small' ? '14px' : '16px')};
 `;
 
-const Button = ({ onClick, outline = false, type = 'default', size = 'normal', loading = false, children }) => (
-  <ViewButton type={type} onClick={onClick} outline={outline}>
+const Button = ({
+  children,
+  loading = false,
+  margin,
+  onClick,
+  outline = false,
+  size = 'normal',
+  title,
+  type = 'default',
+}) => (
+  <ViewButton title={title} margin={margin} type={type} onClick={onClick} outline={outline}>
     {loading && (
       <ViewIcon outline={outline} type={type} size={size}>
         <FontAwesomeIcon icon={faSpinnerThird} spin />
@@ -54,12 +64,14 @@ const Button = ({ onClick, outline = false, type = 'default', size = 'normal', l
 );
 
 Button.propTypes = {
+  children: t.node,
+  loading: t.bool,
+  margin: t.string,
   onClick: t.func.isRequired,
   outline: t.bool,
-  type: t.string,
   size: t.oneOf(['small', 'normal', 'large']),
-  loading: t.bool,
-  children: t.node,
+  title: t.string,
+  type: t.string,
 };
 
 export default Button;
