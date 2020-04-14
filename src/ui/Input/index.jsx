@@ -71,7 +71,7 @@ const ViewError = styled.div`
   border-radius: 0 0 3px 3px;
 `;
 
-const Input = ({ onChange, label, placeholder, value, icon, type, error }) => (
+const Input = ({ name, onChange, label, placeholder, value, icon, type, error }) => (
   <ViewContent>
     <ViewLabel error={error}>
       {label && <ViewLabelText>{label}</ViewLabelText>}
@@ -80,7 +80,7 @@ const Input = ({ onChange, label, placeholder, value, icon, type, error }) => (
           <FontAwesomeIcon icon={icon} />
         </ViewIcon>
       )}
-      <ViewInput type={type} icon={icon} placeholder={placeholder} value={value} onChange={onChange} />
+      <ViewInput name={name} type={type} icon={icon} placeholder={placeholder} value={value} onChange={onChange} />
       {label && icon && (
         <ViewIconLabel>
           <FontAwesomeIcon icon={icon} />
@@ -92,6 +92,7 @@ const Input = ({ onChange, label, placeholder, value, icon, type, error }) => (
 );
 
 Input.propTypes = {
+  name: t.string,
   onChange: t.func.isRequired,
   label: t.string,
   placeholder: t.string,
