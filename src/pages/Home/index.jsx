@@ -36,7 +36,11 @@ const isFormValid = (form) => (setForm) => {
 };
 
 const CreateRoomModal = ({ onClose }) => {
-  const { form, onChange, setForm } = useForm({
+  const {
+    form: { playerName, roomName, nbPlayers },
+    onChange,
+    setForm,
+  } = useForm({
     playerName: { input: '', error: null },
     roomName: { input: '', error: null },
     nbPlayers: { input: '', error: null },
@@ -46,12 +50,17 @@ const CreateRoomModal = ({ onClose }) => {
   const handleSubmit = async () => {
     // TODO: Create an entry in firestore for /players
     try {
-      if (isFormValid(form)(setForm)) return;
+      if (isFormValid({ playerName, roomName, nbPlayers })(setForm)) return;
       setRequestLoading(true);
-      await db.collection('players').add({
-        playerName: form.playerName.input,
-        roomName: form.roomName.input,
-        nbPlayers: form.nbPlayers.input,
+      const player = await db.collection('players').add({
+        playerName: playerName.input,
+        roomName: roomName.input,
+      });
+      await db.collection('rooms').add({
+        roomName: roomName.input,
+        nbPlayers: +nbPlayers.input,
+        full: false,
+        players: [player.id],
       });
       setRequestLoading(false);
     } catch (error) {
@@ -75,38 +84,38 @@ const CreateRoomModal = ({ onClose }) => {
       </div>
       <ViewField>
         <Input
-          error={form.playerName.error}
+          error={playerName.error}
           icon={faUser}
           label="Player name:"
           name="playerName"
           onChange={onChange}
           placeholder="Ex: JohnDoe123"
           type="text"
-          value={form.playerName.input}
+          value={playerName.input}
         />
       </ViewField>
       <ViewField>
         <Input
-          error={form.roomName.error}
+          error={roomName.error}
           icon={faGamepad}
           label="Room name:"
           name="roomName"
           onChange={onChange}
           placeholder="Ex: UltraGameXYZ"
           type="text"
-          value={form.roomName.input}
+          value={roomName.input}
         />
       </ViewField>
       <ViewField>
         <Input
-          error={form.nbPlayers.error}
+          error={nbPlayers.error}
           icon={faUsers}
           label="Number of players:"
           name="nbPlayers"
           onChange={onChange}
           placeholder="Ex: 3"
           type="number"
-          value={form.nbPlayers.input}
+          value={nbPlayers.input}
         />
       </ViewField>
     </Modal>
