@@ -5,9 +5,7 @@ export default (initialValue) => {
   const [form, setForm] = useState(initialValue);
 
   const onChange = (event) => {
-    console.log(event.target.type, event.target.name, event.target.value);
     event.persist();
-    console.log(event);
 
     const validator = VALIDATORS[event.target.type];
 
