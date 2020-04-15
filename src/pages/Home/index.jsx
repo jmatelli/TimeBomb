@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import t from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { pipe, entries, map } from 'lodash/fp';
 import { Button, Modal, Input } from '../../ui';
-import { faUser, faGamepad } from '@fortawesome/free-solid-svg-icons';
-import { faUsers } from '@fortawesome/pro-duotone-svg-icons';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faUsers, faGamepadAlt } from '@fortawesome/pro-duotone-svg-icons';
 import useForm from '../../utils/hooks/useForm';
 import { db } from '../../utils/firebase';
 
@@ -35,7 +36,7 @@ const isFormValid = (form) => (setForm) => {
   return !!errors;
 };
 
-const CreateRoomModal = ({ onClose }) => {
+const CreateRoomModal = ({ history, onClose }) => {
   const {
     form: { playerName, roomName, nbPlayers },
     onChange,
@@ -63,6 +64,7 @@ const CreateRoomModal = ({ onClose }) => {
         players: [player.id],
       });
       setRequestLoading(false);
+      history.push(`/rooms/${roomName.input}`);
     } catch (error) {
       console.log(error);
     }
@@ -97,7 +99,7 @@ const CreateRoomModal = ({ onClose }) => {
       <ViewField>
         <Input
           error={roomName.error}
-          icon={faGamepad}
+          icon={faGamepadAlt}
           label="Room name:"
           name="roomName"
           onChange={onChange}
@@ -124,9 +126,10 @@ const CreateRoomModal = ({ onClose }) => {
 
 CreateRoomModal.propTypes = {
   onClose: t.func,
+  history: t.object,
 };
 
-const Home = () => {
+const Home = ({ history }) => {
   const [isModalOpen, showModal] = useState(false);
 
   return (
@@ -134,9 +137,13 @@ const Home = () => {
       <Button type="primary" onClick={() => showModal(true)}>
         Create Game
       </Button>
-      {isModalOpen && <CreateRoomModal onClose={() => showModal(false)} />}
+      {isModalOpen && <CreateRoomModal history={history} onClose={() => showModal(false)} />}
     </ViewContent>
   );
 };
 
-export default Home;
+Home.propTypes = {
+  history: t.object,
+};
+
+export default withRouter(Home);
