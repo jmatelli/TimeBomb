@@ -4,10 +4,11 @@ import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { pipe, entries, map } from 'lodash/fp';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { faUsers, faGamepadAlt } from '@fortawesome/pro-duotone-svg-icons';
-import useForm from '../../../utils/hooks/useForm';
-import { db } from '../../../utils/firebase';
+import { faGamepadAlt } from '@fortawesome/pro-duotone-svg-icons';
+
 import { Button, Input, Modal } from '../../../ui';
+import { db } from '../../../utils/firebase';
+import useForm from '../../../utils/hooks/useForm';
 
 const ViewField = styled.div`
   display: flex;
@@ -33,65 +34,56 @@ const isFormValid = (form) => (setForm) => {
   return !errors;
 };
 
-const CreateGameModal = ({ history, onClose }) => {
+const JoinGameModal = ({ history, onClose }) => {
   const {
-    form: { playerName, roomName, nbPlayers },
+    form: { playerName, roomName },
     onChange,
     setForm,
   } = useForm({
     playerName: { input: '', error: null },
     roomName: { input: '', error: null },
-    nbPlayers: { input: '', error: null },
   });
   const [isRequestLoading, setRequestLoading] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // TODO: Create an entry in firestore for /players
     try {
-      if (!isFormValid({ playerName, roomName, nbPlayers })(setForm)) return;
+      if (!isFormValid({ playerName, roomName })(setForm)) return;
       setRequestLoading(true);
-      const player = await db.collection('players').add({
+      const rooms = await db.collection('rooms').where('roomName', '==', roomName.input).get();
+      if (!rooms.size) {
+        setRequestLoading(false);
+        throw new Error('There are no game existing with this name.');
+      }
+      await db.collection('players').add({
         playerName: playerName.input,
         roomName: roomName.input,
-      });
-      await db.collection('rooms').add({
-        roomName: roomName.input,
-        nbPlayers: +nbPlayers.input,
-        full: false,
-        players: [player.id],
       });
       setRequestLoading(false);
       history.push(`/rooms/${roomName.input}`);
     } catch (error) {
-      console.log(error);
+      console.warn(error);
     }
   };
 
   return (
     <Modal
-      title="Create a new Game"
+      title="Join a game"
       actions={
-        <Button onClick={handleSubmit} loading={isRequestLoading} type="success">
-          Create
+        <Button type="success" loading={isRequestLoading} onClick={handleSubmit}>
+          Submit
         </Button>
       }
       onClose={onClose}
     >
-      <div>
-        To create a game you need to give us your player name, choose a name for the room and indicate how many people
-        are going to play.
-      </div>
       <form onSubmit={handleSubmit}>
         <ViewField>
           <Input
             error={playerName.error}
             icon={faUser}
-            label="Player name:"
+            label="Player name"
             name="playerName"
             onChange={onChange}
-            placeholder="Ex: JohnDoe123"
-            type="text"
             value={playerName.input}
           />
         </ViewField>
@@ -99,24 +91,10 @@ const CreateGameModal = ({ history, onClose }) => {
           <Input
             error={roomName.error}
             icon={faGamepadAlt}
-            label="Room name:"
+            label="Room name"
             name="roomName"
             onChange={onChange}
-            placeholder="Ex: UltraGameXYZ"
-            type="text"
             value={roomName.input}
-          />
-        </ViewField>
-        <ViewField>
-          <Input
-            error={nbPlayers.error}
-            icon={faUsers}
-            label="Number of players:"
-            name="nbPlayers"
-            onChange={onChange}
-            placeholder="Ex: 3"
-            type="number"
-            value={nbPlayers.input}
           />
         </ViewField>
         <ViewHiddenSubmitButton type="submit">Submit</ViewHiddenSubmitButton>
@@ -125,9 +103,9 @@ const CreateGameModal = ({ history, onClose }) => {
   );
 };
 
-CreateGameModal.propTypes = {
-  onClose: t.func,
+JoinGameModal.propTypes = {
   history: t.object,
+  onClose: t.func,
 };
 
-export default withRouter(CreateGameModal);
+export default withRouter(JoinGameModal);
