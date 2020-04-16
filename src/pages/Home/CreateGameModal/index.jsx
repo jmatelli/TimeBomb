@@ -55,14 +55,14 @@ const CreateGameModal = ({ history, onClose }) => {
         playerName: playerName.input,
         roomName: roomName.input,
       });
-      await db.collection('rooms').add({
+      const room = await db.collection('rooms').add({
         roomName: roomName.input,
         nbPlayers: +nbPlayers.input,
         full: false,
         players: [player.id],
       });
       setRequestLoading(false);
-      history.push(`/rooms/${roomName.input}`);
+      history.push(`/rooms/${room.id}`);
     } catch (error) {
       console.log(error);
     }
