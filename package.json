@@ -73,6 +73,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
+    "deploy": "yarn build && firebase deploy --only hosting:timebomb",
     "test": "node scripts/test.js",
     "git-cz": "git-cz",
     "storybook": "start-storybook -p 6006",
