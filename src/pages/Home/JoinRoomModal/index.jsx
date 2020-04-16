@@ -50,17 +50,18 @@ const JoinGameModal = ({ history, onClose }) => {
     try {
       if (!isFormValid({ playerName, roomName })(setForm)) return;
       setRequestLoading(true);
-      const rooms = await db.collection('rooms').where('roomName', '==', roomName.input).get();
-      if (!rooms.size) {
+      const { docs: rooms, size } = await db.collection('rooms').where('roomName', '==', roomName.input).get();
+      if (!size) {
         setRequestLoading(false);
         throw new Error('There are no game existing with this name.');
       }
+      const room = rooms[0];
       await db.collection('players').add({
         playerName: playerName.input,
         roomName: roomName.input,
       });
       setRequestLoading(false);
-      history.push(`/rooms/${roomName.input}`);
+      history.push(`/rooms/${room.id}`);
     } catch (error) {
       console.warn(error);
     }
