@@ -34,6 +34,8 @@ const isFormValid = (form) => (setForm) => {
   return !errors;
 };
 
+const ROOM_DOESNT_EXISTS_ERROR = 'There are no game existing with this name.';
+
 const JoinGameModal = ({ history, onClose }) => {
   const {
     form: { playerName, roomName },
@@ -53,7 +55,8 @@ const JoinGameModal = ({ history, onClose }) => {
       const { docs: rooms, size } = await db.collection('rooms').where('roomName', '==', roomName.input).get();
       if (!size) {
         setRequestLoading(false);
-        throw new Error('There are no game existing with this name.');
+        setForm((form) => ({ ...form, roomName: { input: form.roomName.input, error: ROOM_DOESNT_EXISTS_ERROR } }));
+        throw new Error(ROOM_DOESNT_EXISTS_ERROR);
       }
       const room = rooms[0];
       await db.collection('players').add({
