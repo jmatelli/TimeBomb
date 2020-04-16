@@ -59,10 +59,18 @@ const JoinGameModal = ({ history, onClose }) => {
         throw new Error(ROOM_DOESNT_EXISTS_ERROR);
       }
       const room = rooms[0];
-      await db.collection('players').add({
+      const roomData = room.data();
+      const player = await db.collection('players').add({
         playerName: playerName.input,
         roomName: roomName.input,
       });
+      await db
+        .collection('rooms')
+        .doc(room.id)
+        .set({
+          ...roomData,
+          players: [...roomData.players, player.id],
+        });
       setRequestLoading(false);
       history.push(`/rooms/${room.id}`);
     } catch (error) {
