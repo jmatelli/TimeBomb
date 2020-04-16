@@ -33,6 +33,8 @@ const isFormValid = (form) => (setForm) => {
   return !errors;
 };
 
+const ROOM_EXISTS_ERROR = 'Sorry but a room with this name already exists.';
+
 const CreateGameModal = ({ history, onClose }) => {
   const {
     form: { playerName, roomName, nbPlayers },
@@ -55,6 +57,12 @@ const CreateGameModal = ({ history, onClose }) => {
         playerName: playerName.input,
         roomName: roomName.input,
       });
+      const roomExists = await db.collection('rooms').where('roomName', '==', roomName.input).get();
+      if (roomExists.size) {
+        setForm((form) => ({ ...form, roomName: { input: form.roomName.input, error: ROOM_EXISTS_ERROR } }));
+        setRequestLoading(false);
+        throw new Error(ROOM_EXISTS_ERROR);
+      }
       const room = await db.collection('rooms').add({
         roomName: roomName.input,
         nbPlayers: +nbPlayers.input,
