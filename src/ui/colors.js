@@ -3,8 +3,8 @@ import { TinyColor } from '@ctrl/tinycolor';
 const defaultColor = '#595959';
 const primary = '#0a3d62';
 const secondary = defaultColor;
-const success = '#38ada9';
-const info = '#4a69bd';
+const success = '#78e08f';
+const info = '#60a3bc';
 const warning = '#fa983a';
 const danger = '#eb2f06';
 
