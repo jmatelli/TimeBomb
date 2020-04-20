@@ -13,23 +13,18 @@ jobs:
     steps:
       - name: Checkout the repository
         uses: actions/checkout@master
-
       - name: Install node
         uses: actions/setup-node@master
         with:
           node-version: '12.x'
-
+          registry-url: 'https://npm.fontawesome.com/'
+          scope: '@fortawesome'
       - name: Install dependencies
-        run: |
-          npm config set "@fortawesome:registry" https://npm.fontawesome.com/
-          npm config set '//npm.fontawesome.com/:_authToken' "${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}"
-          npm ci
-
+        run: yarn --frozen-lockfile
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
       - name: Build the application
-        uses: borales/actions-yarn@v2.0.0
-        with:
-          cmd: build
-
+        run: yarn build
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@v1.3.0
         with:
